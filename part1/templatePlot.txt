@@ -1,0 +1,21 @@
+figure('units','normalized','outerposition',[0 0 1 1]);
+hold on;
+set(gca,'FontSize',35);
+ax = gca;
+ax.XGrid = 'on';
+ax.YGrid = 'on';
+title('2.2 Distance from critical point (example)');
+theta = 0:0.01:2*pi;
+for k = 1:length(t_k)
+    p = plot(R_k(k)*cos(theta)+c_k(1,k),R_k(k)*sin(theta)+c_k(2,k),'Color','blue');
+    p.LineWidth = 3;
+    text(c_k(1,k),c_k(2,k),sprintf('%d',k),'FontSize',25,'HorizontalAlignment', 'center');
+end
+scatter(p_k(1,:),p_k(2,:),300,'s','red','LineWidth',4);
+scatter(x_star(1),x_star(2),300,'o','MarkerFaceColor','black');
+text(x_star(1)-0.75,x_star(2)-0.75,'$x^{\star}$','Interpreter','latex','FontSize',35,'HorizontalAlignment', 'center');
+ylabel('$p_y$','Interpreter','latex');
+xlabel('$p_x$','Interpreter','latex');
+saveas(gcf,'./locating_a_moving_target_data/2_2_example.fig');
+saveas(gcf,'./locating_a_moving_target_data/2_2_example.png');
+hold off;
