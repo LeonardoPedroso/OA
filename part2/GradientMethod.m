@@ -31,25 +31,27 @@ for i = 1:NDataSets
     fprintf("Running gradient descent for dataset %d (n = %d | K = %d).\n",...
         i,n,K);
     tic
-    [xGD,ItGD,normGrad] = gradientDescent(F,gradF,x0,epsl,...
+    [xGD,ItGD,normGradGD] = gradientDescent(F,gradF,x0,epsl,...
         alpha_hat,gamma,beta,maxIt(i));
-    elapsedTime = toc;
+    elapsedTimeGD = toc;
     if ~isnan(xGD)
         fprintf("Gradient descent for dataset %d"+...
         " converged in %d iterations.\n",i,ItGD);
-        fprintf("Elapsed time is %f seconds.\n",elapsedTime);
+        fprintf("Elapsed time is %f seconds.\n",elapsedTimeGD);
         if i<=2
             fprintf("s = [%g; %g] | r = %g.\n",xGD(1),xGD(2),xGD(3));
         end
     else
         fprintf("Gradient descent for dataset %d "+... 
             "exceeded the maximum number of iterations.\n",i); 
-        fprintf("Elapsed time is %f seconds.\n",elapsedTime);
+        fprintf("Elapsed time is %f seconds.\n",elapsedTimeGD);
     end
     save(sprintf("./DATA/GradientDescent/GDsolDataset%d.mat",i),...
-        'xGD','ItGD','normGrad','elapsedTime');
+        'xGD','ItGD','normGradGD','elapsedTimeGD');
     
     %% Plot result
+    plotResults = false;
+    if plotResults
     if i<= 2
         figure('units','normalized','outerposition',[0 0 1 1]);
         set(gca,'FontSize',35);
@@ -78,7 +80,7 @@ for i = 1:NDataSets
     end
     
     figure('units','normalized','outerposition',[0 0 1 1]);
-    plot(0:ItGD-1,normGrad,'LineWidth',3);
+    plot(0:ItGD,normGradGD,'LineWidth',3);
     hold on;
     set(gca,'FontSize',35);
     ax = gca;
@@ -91,6 +93,6 @@ for i = 1:NDataSets
     saveas(gcf,sprintf("./DATA/GradientDescent/GDNormGradDataset%d.fig",i));
     close(gcf);
     hold off; 
-    
+    end
     
 end

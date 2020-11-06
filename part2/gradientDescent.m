@@ -1,16 +1,16 @@
-function [xk,k,normGk] = gradientDescent(F,gradF,x0,epsl,alpha_hat,gamma,beta,maxIt)
+function [xk,k,normGk] = gradientDescent(F,gradF,x0,epsl,...
+    alpha_hat,gamma,beta,maxIt)
     %% Description
     % Inputs: 1. F: objective function (as a function handle)
     %         2. gradF: gradient of teh objective function (as a function 
     %         handle)
-    %         3. D: data set information
-    %         4. x0: initialization
-    %         5. epsl: stopping criterion
-    %         6. alpha_hat: initialization of alpha_k for the backtracking
+    %         3. x0: initialization
+    %         4. epsl: stopping criterion
+    %         5. alpha_hat: initialization of alpha_k for the backtracking
     %         routine
-    %         7. gamma: gamma of backtraking routine
-    %         8. beta: beta of backtraking routine
-    %         9. maxIt: maximum number of iterations
+    %         6. gamma: gamma of backtraking routine
+    %         7. beta: beta of backtraking routine
+    %         8. maxIt: maximum number of iterations
     % Outputs: 1. x: output of the gradient descent method (returns NaN if
     %          stopping criterion not met after the maximum number of 
     %          iterations chosen
@@ -47,6 +47,6 @@ function [xk,k,normGk] = gradientDescent(F,gradF,x0,epsl,alpha_hat,gamma,beta,ma
         % No solution found within the maximum number of iterations
         xk = NaN;
     else
-        normGk = normGk(1:k);
+        normGk = normGk(1:k+1);
     end
 end
