@@ -1,3 +1,4 @@
+% newtonAlgorithm.m
 function [xk,k,normGk,alpha_k_found] = newtonAlgorithm(F,gradF,hessF,x0,epsl,...
     alpha_hat,gamma,beta,maxIt)
     %% Description

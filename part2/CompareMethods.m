@@ -1,3 +1,4 @@
+% CompareMethods.m
 %% Initialization
 clear;
 clc;
