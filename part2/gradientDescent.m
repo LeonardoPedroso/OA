@@ -1,3 +1,4 @@
+% gradientDescent.m
 function [xk,k,normGk] = gradientDescent(F,gradF,x0,epsl,...
     alpha_hat,gamma,beta,maxIt)
     %% Description
