@@ -1,0 +1,96 @@
+% !TeX spellcheck = en_US
+\documentclass[12pt]{article}
+\usepackage{fullpage,psfrag,amsmath,amsfonts,verbatim,mathtools,scrextend}
+\usepackage[small,bf]{caption}
+
+\usepackage[framed,numbered]{mcode}
+
+\usepackage[applemac]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{url}
+
+\usepackage[demo]{graphicx}
+\usepackage{subfigure}
+\usepackage{xcolor}
+
+\usepackage{enumerate}
+
+\bibliographystyle{alpha}
+
+\title{Optimization and Algorithms \\ Project report}
+\author{Group 42 \\ Jos{\'e} Neves 89683, Leonardo Pedroso 89691, and Gustavo Bakker 100660}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+\section{Part 3}
+\subsection{Task 1}
+The dataset in file \verb|data_opt.csv| is loaded and the corresponding matrix $D$ is computed according to $D_{mn} = ||\mathbf{x_m}-\mathbf{x_n}||_2$. The following MATLAB script solves task 1
+\lstinputlisting{code/part3task1.m}
+obtaining 
+\begin{equation*}\label{key}
+D_{2,3} = 5.8749, \quad D_{4,5} = 24.3769
+\end{equation*} 
+and 
+\begin{equation*}\label{key}
+\mathrm{max}(D_{mn}) = 83.003 \quad \text{for} \quad (m,n) \in \{(134,33),(33,134)\}\:.
+\end{equation*}
+
+\subsection{Task 2}
+One has 
+\begin{equation}\label{eq:deff}
+f(\mathbf{y}) = \sum_{m=1}^{N}\sum_{n=m+1}^{N}(||\mathbf{y_m}-\mathbf{y_n}||-D_{mn})^2 = \sum_{m=1}^{N}\sum_{n=m+1}^{N} f_{mn}(\mathbf{y})^2 \:,
+\end{equation}
+where $\mathbf{y_m}\in \mathbb{R}^m$, $k$ is the dimension of the target space, $\mathbf{y} = \mathrm{col}(\mathbf{y_1},\ldots,\mathbf{y_N}) \in \mathbb{R}^{Nk}$ is the optimization variable, and 
+\begin{equation}\label{eq:deffmn}
+f_{mn}(\mathbf{y}) := ||\mathbf{y_m}-\mathbf{y_n}||-D_{mn}\:.
+\end{equation}
+Note that one can write $\mathbf{y_m} = \mathbf{E_m}\mathbf{y}$, where $\mathbf{E_m}\in \mathbb{R}^{k\times Nk}$ is defined as 
+\begin{equation*}\label{key}
+\mathbf{E_m} := \left[\mathbf{0}_{k\times k(m-1)} \quad \mathbf{I}_{k\times k} \quad \mathbf{0}_{k\times k(N-m)}  \right]\:, 
+\end{equation*}
+thus, it is possible to rewrite \eqref{eq:deffmn} as
+\begin{equation}\label{eq:deffmnnew}
+f_{mn}(\mathbf{y}) = ||\mathbf{E_m}\mathbf{y}-\mathbf{E_n}\mathbf{y}||-D_{mn} = \sqrt{\mathbf{y}^T(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})\mathbf{y}}-D_{mn}\:.
+\end{equation}
+Taking the jacobian of \eqref{eq:deffmnnew}, one obtains
+\begin{equation*}\label{key}
+\begin{split}
+D_{\mathbf{y}}f_{m,n}(\mathbf{y}) &= D_u(\sqrt{u})\biggr\rvert_{u = \mathbf{y}^T(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})\mathbf{y}}D_{\mathbf{y}}(\mathbf{y}^T(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})\mathbf{y})\\
+&= \mathbf{y}^T\frac{(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})}{\sqrt{\mathbf{y}^T(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})\mathbf{y}}}
+\end{split}
+\end{equation*}
+therefore the gradient $\nabla_{\mathbf{y}} f_{mn}(\mathbf{y}) = \left(D_{\mathbf{y}}f_{mn}(\mathbf{y})\right)^T$ is given by
+\begin{equation}\label{eq:gradfmn}
+\nabla_{\mathbf{y}} f_{mn}(\mathbf{y}) =  \frac{(\mathbf{E_m}-\mathbf{E_n})^T(\mathbf{E_m}-\mathbf{E_n})}{f_{mn}(\mathbf{y})+D_{mn}} \mathbf{y}\:.
+\end{equation}
+
+Similarly taking the jacobian of \eqref{eq:deff}, one obtains
+\begin{equation*}\label{key}
+D_{\mathbf{y}}f(\mathbf{y}) = \sum_{m=1}^{N}\sum_{n=m+1}^{N} D_u(u^2)\biggr\rvert_{u=f_{mn}(\mathbf{y})}D_{\mathbf{y}}f_{mn}(\mathbf{y})\\= \sum_{m=1}^{N}\sum_{n=m+1}^{N} 2f_{mn}(\mathbf{y})D_{\mathbf{y}}f_{mn}(\mathbf{y})
+\end{equation*}
+therefore the gradient $\nabla_{\mathbf{y}} f(\mathbf{y}) = \left(D_{\mathbf{y}}f(\mathbf{y})\right)^T$ is given by
+\begin{equation}\label{eq:gradf}
+\nabla_{\mathbf{y}} f(\mathbf{y}) = \sum_{m=1}^{N}\sum_{n=m+1}^{N} 2f_{mn}(\mathbf{y})\nabla_{\mathbf{y}}f_{mn}(\mathbf{y})
+\end{equation}
+In conclusion, $f(\mathbf{y})$, $f_{mn}(\mathbf{y})$,$\nabla_{\mathbf{y}} f_{mn}(\mathbf{y})$, and $\nabla_{\mathbf{y}} f(\mathbf{y})$ can be computed making use of \eqref{eq:deff},\eqref{eq:deffmn}, \eqref{eq:gradfmn}, and \eqref{eq:gradf}, respectively. 
+
+For the implementation of the Levenberg-Marquardt (LM) method is is required to compute,for each new iteration, matrix $\mathbf{A}$ and vector $\mathbf{b}$, defined by
+\begin{equation}\label{key}
+\mathbf{A}:= \begin{bmatrix}
+\nabla_{\mathbf{y}} f_{1,1}(\mathbf{y})\\
+\nabla_{\mathbf{y}} f_{1,2}(\mathbf{y})\\\vdots\\
+\nabla_{\mathbf{y}} f_{N-1,N}(\mathbf{y})\\
+\sqrt{\lambda}\mathbf{I}_{Nk\times Nk}
+\end{bmatrix}\quad \text{and} \quad \mathbf{b}:= \begin{bmatrix}
+\nabla_{\mathbf{y}} f_{1,1}(\mathbf{y})^T\mathbf{y}-f_{1,1}(\mathbf{y})\\
+\nabla_{\mathbf{y}} f_{1,2}(\mathbf{y})^T\mathbf{y}-f_{1,2}(\mathbf{y})\\\vdots\\
+\nabla_{\mathbf{y}} f_{N-1,N}(\mathbf{y})^T\mathbf{y}-f_{N-1,N}(\mathbf{y})\\
+\sqrt{\lambda}\mathbf{y}
+\end{bmatrix}\:.
+\end{equation}
+
+\end{document}

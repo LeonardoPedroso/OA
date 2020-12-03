@@ -1,0 +1,149 @@
+% !TeX spellcheck = pt_BR
+% Latex template: mahmoud.s.fahmy@students.kasralainy.edu.eg
+% For more details: https://www.sharelatex.com/learn/Beamer
+
+\documentclass{beamer}					% Document class
+
+\usepackage[english]{babel}				% Set language
+\usepackage[utf8x]{inputenc}			% Set encoding
+
+\mode<presentation>						% Set options
+{
+  \usetheme{default}					% Set theme
+  \usecolortheme{default} 				% Set colors
+  \usefonttheme{default}  				% Set font theme
+  \setbeamertemplate{caption}[numbered]	% Set caption to be numbered
+}
+
+% Uncomment this to have the outline at the beginning of each section highlighted.
+%\AtBeginSection[]
+%{
+%  \begin{frame}{Outline}
+%    \tableofcontents[currentsection]
+%  \end{frame}
+%}
+
+\usepackage{graphicx}					% For including figures
+\usepackage{booktabs}					% For table rules
+\usepackage{hyperref}					% For cross-referencing
+
+\title{Otimização e algoritmos}	% Presentation title
+\author{Bla,Bla, and bla}	% Presentation author
+\institute{IST}					% Author affiliation
+\date{\today}									% Today's date	
+
+\begin{document}
+
+% Title page
+% This page includes the informations defined earlier including title, author/s, affiliation/s and the date
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Outline
+% This page includes the outline (Table of content) of the presentation. All sections and subsections will appear in the outline by default.
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% The following is the most frequently used slide types in beamer
+% The slide structure is as follows:
+%
+%\begin{frame}{<slide-title>}
+%	<content>
+%\end{frame}
+
+\section{Part 3}
+
+\begin{frame}{Parte 3  - Introdução}
+Nesta parte pretende-se resolver o seguinte problema
+\begin{equation*} \label{eq:problem}
+\begin{array}[t]{ll} 
+\underset{\mathbf{y} \in \mathbf{R}^{Nk}}{\text{minimize}} & f(\mathbf{y}),\\
+\end{array} 
+\end{equation*}
+onde
+\begin{equation*}\label{eq:deff}
+f(\mathbf{y}) := \sum_{m=1}^{N}\sum_{n=m+1}^{N}\left(||\mathbf{y_m}-\mathbf{y_n}||_2-D_{mn}\right)^2 = \sum_{m=1}^{N}\sum_{n=m+1}^{N} f_{mn}(\mathbf{y})^2 \:,
+\end{equation*} 
+e
+\begin{equation*}\label{key}
+D_{mn} = ||\mathbf{x_m}-\mathbf{x_n}||_2 \:.
+\end{equation*}
+\begin{itemize}
+\item Não é um problema de otimização convexo!
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Part 3  - Task 1}
+	O dataset desta \textit{task} foi carregado e calculou-se a matriz $D$ de acordo com 
+	\begin{equation*}\label{key}
+D_{mn} = ||\mathbf{x_m}-\mathbf{x_n}||_2 \:.
+\end{equation*}
+obtendo-se
+\begin{equation*}\label{key}
+D_{2,3} = 5.8749, \quad D_{4,5} = 24.3769
+\end{equation*} 
+e
+\begin{equation*}\label{key}
+\mathrm{max}(D_{mn}) = 83.003 \quad \text{for} \quad (m,n) \in \{(134,33),(33,134)\}\:.
+\end{equation*}\end{frame}
+
+\begin{frame}{Part 3  - Task 2}
+	content...
+\end{frame}
+
+
+\begin{frame}{Part 3  - Task 3}
+	content...
+\end{frame}
+
+
+%\begin{frame}{Slide with bullet points}
+%	This is a bullet list of two points:
+%    \begin{itemize}
+%		\item Point one
+%        \item Point two
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Slide with two columns}
+%	\begin{columns}
+%		\column{.5\textwidth}
+%        Text goes in first column.
+%        
+%        \column{.5\textwidth}
+%        Text goes in second column
+%	\end{columns}
+%\end{frame}
+%
+%\section{Section Two}
+%
+%\begin{frame}{Slide with table}
+%	\input{tables/table1.tex}
+%\end{frame}
+%
+%\begin{frame}{Slide with figure}
+%	\begin{figure}[H]
+%		\centering
+%        \includegraphics[width=.5\textwidth]{figures/figure1.png}
+%        \caption{Caption for figure one.}
+%        \label{fig:figure1}
+%	\end{figure}
+%\end{frame}
+%
+%\begin{frame}{Slide with references}
+%	This is to reference a figure (Figure \ref{fig:figure1})\\
+%    This it to reference a table (Table \ref{tab:table1})\\
+%    This is to cite an article \cite{Ahmed2018a}\\
+%    This is to add an article to the references without mentioning in the text \nocite{Ahmed2018a}\\
+%\end{frame}
+%\section{References}
+%
+%% Adding the option 'allowframebreaks' allows the contents of the slide to be expanded in more than one slide.
+%\begin{frame}[allowframebreaks]{References}
+%	\tiny\bibliography{references}
+%	\bibliographystyle{apalike}
+%\end{frame}
+
+\end{document}
