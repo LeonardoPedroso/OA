@@ -113,3 +113,46 @@ ax.YGrid = 'on';
 title(sprintf("LM algorithm | Dataset task 4 | k = %d",k));
 saveas(gcf,sprintf("./data/task4_sol.png"));
 hold off;
+
+%% Second best solution
+load("./data/solSortedTask4.mat",'solSorted'); % save sorted solutions
+k = 2;
+load("./data/distancesTask4.mat",'D','N');
+% Load second best solution run
+data = load(sprintf("./data/RunsTask4/solRUN%02d.mat",solSorted(2,1)));
+% Get best solution data and save it
+solLM = data.solLM{solSorted(2,2),1};
+itLM = data.itLM(solSorted(2,2),1);
+elapsedTimeLM = data.elapsedTimeLM(solSorted(2,2),1);
+costLM = data.costLM{solSorted(2,2),1};
+normGradLM = data.normGradLM{solSorted(2,2),1};
+
+figure('units','normalized','outerposition',[0 0 1 1]);
+yyaxis left
+plot(0:itLM(k-1,1)-1,costLM,'LineWidth',3);
+hold on;
+ylabel('$f(y)$','Interpreter','latex');
+set(gca, 'YScale', 'log');
+yyaxis right
+plot(0:itLM(k-1,1)-1,normGradLM,'LineWidth',3);
+ylabel('$||\nabla f (y)||$','Interpreter','latex');
+set(gca,'FontSize',35);
+ax = gca;
+ax.XGrid = 'on';
+ax.YGrid = 'on'; 
+title(sprintf("LM algorithm | Dataset task 4 | k = %d",k));
+set(gca, 'YScale', 'log');
+xlabel('$k$','Interpreter','latex');
+saveas(gcf,"./data/task4_LM_2.png");
+hold off;
+y = reshape(solLM,[k,N]);
+figure('units','normalized','outerposition',[0 0 1 1]);
+scatter(y(1,:),y(2,:),100,'o','b','LineWidth',1,'MarkerFaceColor','flat');
+hold on;
+set(gca,'FontSize',35);
+ax = gca;
+ax.XGrid = 'on';
+ax.YGrid = 'on'; 
+title(sprintf("LM algorithm | Dataset task 4 | k = %d",k));
+saveas(gcf,sprintf("./data/task4_sol_2.png"));
+hold off;

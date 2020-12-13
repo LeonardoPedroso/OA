@@ -50,16 +50,6 @@ parfor it = 1:NIts % calls of LM can be run in parallel
     [solLM{it,1},itLM(it,1),costLM{it,1},normGradLM{it,1}] =...
         LMAlgorithm(lambda0,y0,epsl,maxIt);
     elapsedTimeLM(it,1) = toc; % save elapsed time
-    
-%     if ~isnan(solLM{it,1}) % if a solution was found
-%         fprintf("Solution found for dataset of task 4 with k = %d using LM algorithm.\n",k);
-%         fprintf("- Objective function value: %f.\n",costLM{it,1}(end,1));
-%         fprintf("- Elapsed time: %g.\n", elapsedTimeLM(it,1));
-%     else % if a solution was not found
-%         fprintf("Solution could not be found for dataset of task 1 with "+...
-%             "k = %d using\n LM algorithm with the provided stoppin criterion"+...
-%             " and maximum number of iterations.\n",k);
-%     end
 end
 % Save whole run
 save(sprintf("./data/RunsTask4/solRUN%02d.mat",RUN),...
